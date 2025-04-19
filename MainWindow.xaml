@@ -1,0 +1,259 @@
+﻿<Window x:Class="FinalCalcuEDP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinalCalcuEDP"
+        mc:Ignorable="d"
+        Title="Calculator" Icon="/Assets/Calculator.ico"
+        Height="650" Width="400" MinHeight="550" MinWidth="350"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowColor}">
+    <Grid>
+        <Grid x:Name="MainContentGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="48">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="MenuButton" Grid.Column="0" Style="{StaticResource IconButtonStyle}" Content="&#xE700;" Click="MenuButton_Click" VerticalAlignment="Center"/>
+                <TextBlock x:Name="ModeTitleTextBlock" Grid.Column="1" Text="Standard" FontFamily="Segoe UI" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0"/>
+                <Button x:Name="HistoryButton" Grid.Column="2" Style="{StaticResource IconButtonStyle}" Content="&#xE81C;" ToolTip="History" Click="HistoryButton_Click" VerticalAlignment="Center" Visibility="Collapsed"/>
+
+            </Grid>
+            <TextBlock x:Name="ExpressionDisplay" Grid.Row="1" Style="{StaticResource SubDisplayTextBlockStyle}" Text=""/>
+            <TextBox x:Name="Display" Grid.Row="2" Style="{StaticResource DisplayTextBoxStyle}" Text="0"/>
+            <Frame x:Name="MainFrame" Grid.Row="3" NavigationUIVisibility="Hidden" Margin="5"/>
+        </Grid>
+
+        <!-- Menu Flyout from Left Side -->
+        <Border x:Name="OverlayBorder" Background="#40000000" Visibility="Collapsed" MouseDown="OverlayBorder_MouseDown"/>
+        <Border x:Name="FlyoutBorder"
+                Background="{StaticResource MenuFlyoutBackgroundBrush}"
+                Width="280" HorizontalAlignment="Left"
+                BorderBrush="#FFD0D0D0" BorderThickness="0,0,1,0"
+                Visibility="Collapsed">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="FlyoutTransform" X="-280"/>
+            </Border.RenderTransform>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="FlyoutMenuButton" Grid.Row="0" Style="{StaticResource IconButtonStyle}" Content="&#xE700;" Click="MenuButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Style="{StaticResource SubDisplayTextBlockStyle}" Text="Calculator" FontWeight="SemiBold" HorizontalAlignment="Left"/>
+
+                <ListView x:Name="NavigationListView" Grid.Row="2"
+                  Background="Transparent" BorderThickness="0"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  SelectionChanged="NavigationListView_SelectionChanged"
+                  ItemContainerStyle="{StaticResource FlyoutListViewItemStyle}">
+                    <ListView.Items>
+                        <ListViewItem Tag="Standard">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource FlyoutItemIconStyle}" Text="&#xE8EF;"/>
+                                <TextBlock Style="{StaticResource FlyoutItemTextBlockStyle}" Text="Standard"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Tag="Scientific">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource FlyoutItemIconStyle}" Text="&#x1F52C;" FontFamily="Segoe UI Symbol"/>
+                                <TextBlock Style="{StaticResource FlyoutItemTextBlockStyle}" Text="Scientific"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Tag="Programmer">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&lt;/&gt;"/>
+                                <TextBlock Style="{StaticResource FlyoutItemTextBlockStyle}" Text="Programmer"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Tag="Date">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource FlyoutItemIconStyle}" Text="&#xE787;"/>
+                                <TextBlock Style="{StaticResource FlyoutItemTextBlockStyle}" Text="Date Calculation"/>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView.Items>
+                </ListView>
+            </Grid>
+        </Border>
+
+        <!-- History Panel -->
+        <Border x:Name="HistoryOverlayBorder" MouseDown="HistoryOverlayBorder_MouseDown" Visibility="Collapsed"
+                Background="#40000000" Panel.ZIndex="2" Grid.RowSpan="3">
+        </Border>
+        <Border x:Name="HistoryPanelBorder" Visibility="Collapsed" Grid.Row="2" Panel.ZIndex="3"
+                Background="#F2F2F2" CornerRadius="8,8,0,0"
+                BorderBrush="#10000000" BorderThickness="1" Margin="0,0,0,0"
+                VerticalAlignment="Bottom" MaxHeight="350" Height="350">
+            <Border.RenderTransform>
+                <TranslateTransform Y="350"/>
+            </Border.RenderTransform>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- History Panel Content -->
+                <ScrollViewer Grid.Row="0" Margin="0,10,0,10">
+                    <ItemsControl x:Name="HistoryItemsControl" Margin="10,0,10,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,5" Padding="10" CornerRadius="4"
+                                        Background="Transparent"
+                                        MouseEnter="HistoryItem_MouseEnter" 
+                                        MouseLeave="HistoryItem_MouseLeave"
+                                        MouseLeftButtonDown="HistoryItem_Click">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Expression -->
+                                        <TextBlock Grid.Row="0" Text="{Binding Expression}" 
+                                                  FontSize="14" TextWrapping="Wrap" 
+                                                  Foreground="#99000000" HorizontalAlignment="Right"/>
+
+                                        <!-- Result -->
+                                        <TextBlock Grid.Row="1" Text="{Binding Result}" 
+                                                  FontSize="20" FontWeight="SemiBold" 
+                                                  TextWrapping="Wrap" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- History Panel Footer with Trash Icon -->
+                <Grid Grid.Row="1" Height="40" Background="Transparent">
+                    <Button x:Name="ClearHistoryButton" Content="&#xE74D;"
+                            FontFamily="Segoe MDL2 Assets" FontSize="16"
+                            Style="{StaticResource SymbolButtonStyle}" 
+                            Click="ClearHistoryButton_Click"
+                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Margin="0,0,10,0"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Memory Panel -->
+        <Border x:Name="MemoryOverlayBorder" MouseDown="MemoryOverlayBorder_MouseDown" Visibility="Collapsed"
+                Background="#40000000" Panel.ZIndex="2" Grid.RowSpan="3">
+        </Border>
+        <Border x:Name="MemoryPanelBorder" Visibility="Collapsed" Grid.Row="2" Panel.ZIndex="3"
+                Background="#F2F2F2" CornerRadius="8,8,0,0"
+                BorderBrush="#10000000" BorderThickness="1" Margin="0,0,0,0"
+                VerticalAlignment="Bottom" MaxHeight="350" Height="350">
+            <Border.RenderTransform>
+                <TranslateTransform Y="350"/>
+            </Border.RenderTransform>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Memory Panel Content -->
+                <ScrollViewer Grid.Row="0" Margin="0,10,0,10">
+                    <ItemsControl x:Name="MemoryItemsControl" Margin="10,0,10,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,5" Padding="10" CornerRadius="4"
+                                        Background="Transparent"
+                                        MouseEnter="MemoryItem_MouseEnter" 
+                                        MouseLeave="MemoryItem_MouseLeave">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Memory Value -->
+                                        <TextBlock Grid.Row="0" Text="{Binding Value}" 
+                                                   FontSize="20" TextAlignment="Right"
+                                                   MouseDown="MemoryItem_Click"/>
+
+                                        <!-- Memory Item Actions -->
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                                                    HorizontalAlignment="Right" Margin="0,5,0,0">
+                                            <Button Content="M+" Style="{StaticResource MemoryButtonStyle}" 
+                                                    Tag="{Binding}" Click="MemoryItemAdd_Click"/>
+                                            <Button Content="M-" Style="{StaticResource MemoryButtonStyle}" 
+                                                    Tag="{Binding}" Click="MemoryItemSubtract_Click" 
+                                                    Margin="5,0,5,0"/>
+                                            <Button Content="MC" Style="{StaticResource MemoryButtonStyle}" 
+                                                    Tag="{Binding}" Click="MemoryItemClear_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- Memory Panel Footer with Trash Icon -->
+                <Grid Grid.Row="1" Height="40" Background="Transparent">
+                    <Button x:Name="ClearMemoryButton" Content="&#xE74D;"
+                            FontFamily="Segoe MDL2 Assets" FontSize="16"
+                            Style="{StaticResource SymbolButtonStyle}" 
+                            Click="ClearMemoryButton_Click"
+                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Margin="0,0,10,0"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Iterate Dialog Overlay -->
+        <Border x:Name="IterateDialogOverlay" Style="{StaticResource DialogOverlayStyle}" Panel.ZIndex="100">
+            <Border Style="{StaticResource DialogPanelStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Continue to iterate?" 
+                              FontSize="18" FontWeight="SemiBold" 
+                              Margin="0,0,0,15" 
+                              HorizontalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1" x:Name="IterateMessageText"
+                              Text="Do you want to continue with this calculation?" 
+                              TextWrapping="Wrap" 
+                              Margin="0,0,0,20" 
+                              HorizontalAlignment="Center"/>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="IterateYesButton" 
+                               Content="Yes" 
+                               Style="{StaticResource DialogButtonStyle}" 
+                               Click="IterateYesButton_Click"/>
+
+                        <Button x:Name="IterateNoButton" 
+                               Content="No" 
+                               Style="{StaticResource DialogButtonStyle}" 
+                               Click="IterateNoButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

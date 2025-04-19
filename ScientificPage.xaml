@@ -1,0 +1,246 @@
+﻿<Page x:Class="FinalCalcuEDP.ScientificPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FinalCalcuEDP"
+            mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="400"
+      Title="ScientificPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="2" Height="0.5" HorizontalAlignment="Stretch" Background="#FFCCCCCC"  Margin="0,-40,0,0" IsHitTestVisible="False" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5,5,5,0">
+            <!-- Angle Mode Cycling Button -->
+            <Button x:Name="AngleModeButton"
+            Content="DEG"
+            Width="60" Height="36"
+            Style="{StaticResource MemoryButtonStyle}"
+            BorderBrush="Transparent"
+            Click="AngleModeButton_Click"
+            Margin="0,0,8,0"/>
+
+            <!-- F-E Button -->
+            <ToggleButton x:Name="FEButton"
+                  Content="F-E"
+                  Width="60" Height="36"
+                  Style="{StaticResource ToggleButtonStyle}"
+                  Background="Transparent"
+                  BorderBrush="Transparent"
+                  Click="FE_Click"/>
+        </StackPanel>
+
+
+        <Grid Grid.Row="1" Height="35" Margin="2,5,2,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="MC" Style="{StaticResource MemoryButtonStyle}" IsEnabled="False" Click="Memory_Click"/>
+            <Button Grid.Column="1" Content="MR" Style="{StaticResource MemoryButtonStyle}" IsEnabled="False" Click="Memory_Click"/>
+            <Button Grid.Column="2" Content="M+" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+            <Button Grid.Column="3" Content="M-" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+            <Button Grid.Column="4" Content="MS" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+            <Button x:Name="MemoryDropdownButton" Grid.Column="5" Content="M∨" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,5,5,0">
+            <Button x:Name="TrigButton" Content="△ Trigonometry" Width="175" Height="40" Style="{StaticResource ComboBoxButtonStyle}" Margin="0,0,5,0" Click="TrigButton_Click"/>
+            <Button x:Name="FunctionButton" Width="175" Height="40" Style="{StaticResource ComboBoxButtonStyle}" Margin="0,0,5,0" Click="FunctionButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="f" FontStyle="Italic"/>
+                    <TextBlock Text=" Function" Margin="5,0,0,0"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+           
+        <!-- Trigonometry Dropdown Panel -->
+        <Popup x:Name="TrigPopup" StaysOpen="False" Placement="Bottom" PlacementTarget="{Binding ElementName=TrigButton}">
+            <Border Background="{StaticResource FlyoutBackgroundBrush}" BorderBrush="LightGray" BorderThickness="0.5" Padding="8" >
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- First Row with 2nd and hyp in first and second columns -->
+                        <ToggleButton x:Name="SecondFunctionToggle" Content="2ⁿᵈ" 
+                                     Grid.Row="0" Grid.Column="0"
+                                     Width="80" Height="40" 
+                                     Style="{StaticResource ToggleFunctionButtonStyle}" 
+                                     Click="SecondFunctionToggle_Click"/>
+
+                        <ToggleButton x:Name="HyperbolicToggle" Content="hyp" 
+                                     Grid.Row="1" Grid.Column="0"
+                                     Width="80" Height="40" 
+                                     Style="{StaticResource ToggleFunctionButtonStyle}" 
+                                     Click="HyperbolicToggle_Click"/>
+
+                        <Button x:Name="SinButton" Content="sin" 
+                                Grid.Row="0" Grid.Column="1" 
+                                Style="{StaticResource BaseButtonStyle}" 
+                                FontSize="16"
+                                Width="80" Height="40" 
+                                Margin="2" Padding="8" 
+                                Click="TrigButton_ItemClick" 
+                                Tag="sin"/>
+
+                        <Button x:Name="CosButton" Content="cos" 
+                                Grid.Row="0" Grid.Column="2" 
+                                Style="{StaticResource BaseButtonStyle}" 
+                                FontSize="16"
+                                Width="80" Height="40" 
+                                Margin="2" Padding="8" 
+                                Click="TrigButton_ItemClick" 
+                                Tag="cos"/>
+
+                        <Button x:Name="TanButton" Content="tan" 
+                                Grid.Row="0" Grid.Column="3" 
+                                Style="{StaticResource BaseButtonStyle}" 
+                                FontSize="16"
+                                Width="80" Height="40" 
+                                Margin="2" Padding="8" 
+                                Click="TrigButton_ItemClick" 
+                                Tag="tan"/>
+
+                        <!-- Second Row with trig functions -->
+                        <Button x:Name="SecButton" Content="sec" 
+                                Grid.Row="1" Grid.Column="1" 
+                                Style="{StaticResource BaseButtonStyle}" 
+                                FontSize="16"
+                                Width="80" Height="40" 
+                                Margin="2" Padding="8" 
+                                Click="TrigButton_ItemClick" 
+                                Tag="sec"/>
+
+                        <Button x:Name="CscButton" Content="csc" 
+                                Grid.Row="1" Grid.Column="2" 
+                                Style="{StaticResource BaseButtonStyle}" 
+                                FontSize="16"
+                                Width="80" Height="40" 
+                                Margin="2" Padding="8" 
+                                Click="TrigButton_ItemClick" 
+                                Tag="csc"/>
+
+                        <Button x:Name="CotButton" Content="cot" 
+                                Grid.Row="1" Grid.Column="3" 
+                                Style="{StaticResource BaseButtonStyle}" 
+                                FontSize="16"
+                                Width="80" Height="40" 
+                                Margin="2" Padding="8" 
+                                Click="TrigButton_ItemClick" 
+                                Tag="cot"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <!-- Function Dropdown Panel -->
+        <Popup x:Name="FunctionPopup" StaysOpen="False" Placement="Bottom" PlacementTarget="{Binding ElementName=FunctionButton}">
+            <Border Background="{StaticResource FlyoutBackgroundBrush}" BorderBrush="LightGray" BorderThickness="0.5" Padding="8" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="|x|" Grid.Row="0" Grid.Column="0" Style="{StaticResource BaseButtonStyle}" FontSize="16"
+                            Width="80" Height="40" Margin="2" Padding="8" Click="FunctionButton_ItemClick" Tag="abs"/>
+                    <Button Content="⌊x⌋" Grid.Row="0" Grid.Column="1" Style="{StaticResource BaseButtonStyle}" FontSize="16"
+                            Width="80" Height="40" Margin="2" Padding="8" Click="FunctionButton_ItemClick" Tag="floor"/>
+                    <Button Content="⌈x⌉" Grid.Row="0" Grid.Column="2" Style="{StaticResource BaseButtonStyle}" FontSize="16"
+                            Width="80" Height="40" Margin="2" Padding="8" Click="FunctionButton_ItemClick" Tag="ceil"/>
+
+                    <Button Content="rand" Grid.Row="1" Grid.Column="0" Style="{StaticResource BaseButtonStyle}" FontSize="16"
+                            Width="80" Height="40" Margin="2" Padding="8" Click="FunctionButton_ItemClick" Tag="rand"/>
+                    <Button Content="→dms" Grid.Row="1" Grid.Column="1" Style="{StaticResource BaseButtonStyle}" FontSize="16"
+                            Width="80" Height="40" Margin="2" Padding="8" Click="FunctionButton_ItemClick" Tag="todms"/>
+                    <Button Content="→deg" Grid.Row="1" Grid.Column="2" Style="{StaticResource BaseButtonStyle}" FontSize="16"
+                            Width="80" Height="40" Margin="2" Padding="8" Click="FunctionButton_ItemClick" Tag="todeg"/>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Content="2ⁿᵈ" Style="{StaticResource BaseButtonStyle}" Click="SecondFunction_Click"/>
+            <Button Grid.Row="0" Grid.Column="1" Content="π" Style="{StaticResource BaseButtonStyle}" Click="Constant_Click"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="e" Style="{StaticResource BaseButtonStyle}" Click="Constant_Click"/>
+            <Button Grid.Row="0" Grid.Column="3" Content="C" Style="{StaticResource BaseButtonStyle}" Click="Clear_Click"/>
+            <Button Grid.Row="0" Grid.Column="4" Style="{StaticResource IconKeyButtonStyle}" Content="&#xEB96;" ToolTip="Backspace" Click="Backspace_Click"/>
+
+            <Button Grid.Row="1" Grid.Column="0" Content="x²" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="Square"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="¹/ₓ" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="Reciprocal"/>
+            <Button Grid.Row="1" Grid.Column="2" Content="|x|" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="Abs"/>
+            <Button Grid.Row="1" Grid.Column="3" Content="exp" Style="{StaticResource BaseButtonStyle}" Click="Exp_Click"/>
+            <Button Grid.Row="1" Grid.Column="4" Content="mod" Style="{StaticResource BaseButtonStyle}" Click="BinaryScientificOp_Click"/>
+
+            <Button Grid.Row="2" Grid.Column="0" Content="√x" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="RootX"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="(" Style="{StaticResource BaseButtonStyle}" Click="Parenthesis_Click"/>
+            <Button Grid.Row="2" Grid.Column="2" Content=")" Style="{StaticResource BaseButtonStyle}" Click="Parenthesis_Click"/>
+            <Button Grid.Row="2" Grid.Column="3" Content="n!" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="Factorial"/>
+            <Button Grid.Row="2" Grid.Column="4" Content="÷" Style="{StaticResource BaseButtonStyle}" Click="Operation_Click"/>
+
+            <Button Grid.Row="3" Grid.Column="0" Content="xʸ" Style="{StaticResource BaseButtonStyle}" Click="BinaryScientificOp_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="7" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="2" Content="8" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="3" Content="9" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="4" Content="×" Style="{StaticResource BaseButtonStyle}" Click="Operation_Click"/>
+
+            <Button Grid.Row="4" Grid.Column="0" Content="10ˣ" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="TenPowerX"/>
+            <Button Grid.Row="4" Grid.Column="1" Content="4" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="2" Content="5" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="3" Content="6" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="4" Content="−" Style="{StaticResource BaseButtonStyle}" Click="Operation_Click"/>
+
+            <Button Grid.Row="5" Grid.Column="0" Content="log" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="Log10"/>
+            <Button Grid.Row="5" Grid.Column="1" Content="1" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="5" Grid.Column="2" Content="2" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="5" Grid.Column="3" Content="3" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="5" Grid.Column="4" Content="+" Style="{StaticResource BaseButtonStyle}" Click="Operation_Click"/>
+
+            <Button Grid.Row="6" Grid.Column="0" Content="ln" Style="{StaticResource BaseButtonStyle}" Click="UnaryFunction_Click" Tag="Ln"/>
+            <Button Grid.Row="6" Grid.Column="1" Content="+/-" Style="{StaticResource BaseButtonStyle}" Click="Negate_Click"/>
+            <Button Grid.Row="6" Grid.Column="2" Content="0" Style="{StaticResource NumButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="6" Grid.Column="3" Content="." Style="{StaticResource BaseButtonStyle}" Click="Number_Click"/>
+            <Button Grid.Row="6" Grid.Column="4" Content="=" Style="{StaticResource EqualsButtonStyle}" Click="Equals_Click"/>
+        </Grid>
+    </Grid>
+</Page>

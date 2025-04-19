@@ -1,0 +1,80 @@
+﻿<Page x:Class="FinalCalcuEDP.StandardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FinalCalcuEDP"
+            mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="400"
+      Title="StandardPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Height="35" Margin="2,0,2,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="MC" Style="{StaticResource MemoryButtonStyle}" IsEnabled="False" Click="Memory_Click"/>
+            <Button Grid.Column="1" Content="MR" Style="{StaticResource MemoryButtonStyle}" IsEnabled="False" Click="Memory_Click"/>
+            <Button Grid.Column="2" Content="M+" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+            <Button Grid.Column="3" Content="M-" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+            <Button Grid.Column="4" Content="MS" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+            <Button x:Name="MemoryDropdownButton" Grid.Column="5" Content="M∨" Style="{StaticResource MemoryButtonStyle}" Click="Memory_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource BaseButtonStyle}" Content="%" Click="Operation_Click" />
+            <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource BaseButtonStyle}" Content="CE" Click="ClearEntry_Click"/>
+            <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource BaseButtonStyle}" Content="C" Click="Clear_Click"/>
+            <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource IconKeyButtonStyle}" Content="&#xEB96;" ToolTip="Backspace" Click="Backspace_Click"/>
+
+            <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource BaseButtonStyle}" Content="¹/ₓ" Click="Reciprocal_Click"/>
+            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource BaseButtonStyle}" Content="x²" Click="Square_Click"/>
+            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource BaseButtonStyle}" Content="√x" Click="SquareRoot_Click"/>
+            <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource BaseButtonStyle}" Content="÷" Click="Operation_Click"/>
+
+            <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource NumButtonStyle}" Content="7" Click="Number_Click"/>
+            <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource NumButtonStyle}" Content="8" Click="Number_Click"/>
+            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource NumButtonStyle}" Content="9" Click="Number_Click"/>
+            <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource BaseButtonStyle}" Content="×" Click="Operation_Click"/>
+
+            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource NumButtonStyle}" Content="4" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource NumButtonStyle}" Content="5" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource NumButtonStyle}" Content="6" Click="Number_Click"/>
+            <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource BaseButtonStyle}" Content="−" Click="Operation_Click"/>
+
+            <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource NumButtonStyle}" Content="1" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource NumButtonStyle}" Content="2" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource NumButtonStyle}" Content="3" Click="Number_Click"/>
+            <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource BaseButtonStyle}" Content="+" Click="Operation_Click"/>
+
+            <Button Grid.Row="5" Grid.Column="0" Style="{StaticResource BaseButtonStyle}" Content="+/-" Click="Negate_Click"/>
+            <Button Grid.Row="5" Grid.Column="1" Style="{StaticResource NumButtonStyle}" Content="0" Click="Number_Click"/>
+            <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource BaseButtonStyle}" Content="." Click="Number_Click"/>
+            <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource EqualsButtonStyle}" Content="=" Click="Equals_Click"/>
+        </Grid>
+    </Grid>
+</Page>
